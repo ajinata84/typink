@@ -1,11 +1,11 @@
 import { ThemeProvider } from "./components/theme-provider";
-import Layout from "./components/ui/layout";
+import Auth from "./routes/Auth";
 
 
 function App() {
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="typink-theme">
-      <Layout />
+    <ThemeProvider defaultTheme="light" storageKey="typink-theme">
+      <Auth />
     </ThemeProvider>
   );
 }
