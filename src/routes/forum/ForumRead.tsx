@@ -1,6 +1,10 @@
+import { useParams } from "react-router-dom";
 
 export default function ForumRead() {
+  const { category, id } = useParams();
   return (
-    <div>ForumRead</div>
-  )
+    <div>
+      Forum Category: {category}, ID: {id}
+    </div>
+  );
 }

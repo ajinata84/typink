@@ -1,4 +1,10 @@
+import { useParams } from "react-router-dom";
 
 export default function LiteratureRead() {
-  return <div>LiteratureRead</div>;
+  const { category, id } = useParams();
+  return (
+    <div>
+      Literature Category: {category}, ID: {id}
+    </div>
+  );
 }

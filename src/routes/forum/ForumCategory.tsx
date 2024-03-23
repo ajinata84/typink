@@ -1,6 +1,6 @@
+import { useParams } from "react-router-dom";
 
 export default function ForumCategory() {
-  return (
-    <div>ForumCategory</div>
-  )
+  const { category } = useParams();
+  return <div>Forum Category: {category}</div>;
 }
