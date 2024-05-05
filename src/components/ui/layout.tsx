@@ -1,11 +1,21 @@
-export default function Layout() {
+import Navbar from "../navbar/Navbar";
+import LeftBar from "../sidebars/LeftBar";
+import RightBar from "../sidebars/RightBar";
+
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <div className="w-[1200px] m-auto min-h-full flex-col">
-      <div className="h-[100px] bg-red-900"></div>
+      <Navbar />
       <div className="flex h-screen w-full">
-        <div className="w-1/4 bg-green-800 "></div>
-        <div className="w-full bg-black "></div>
-        <div className="w-1/4 bg-yellow-600 "></div>
+        <div className="w-1/4 ">
+          <LeftBar />
+        </div>
+        <div className="w-full  ">
+          {children}
+        </div>
+        <div className="w-1/4 ">
+          <RightBar />
+        </div>
       </div>
     </div>
   );

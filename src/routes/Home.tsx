@@ -1,6 +1,9 @@
+import Layout from "@/components/ui/layout";
 
 export default function Home() {
   return (
-    <div>Home</div>
+    <Layout>
+      <div>asdfads</div>
+    </Layout>
   )
 }
