@@ -7,13 +7,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="w-[1200px] m-auto min-h-full flex-col">
       <Navbar />
       <div className="flex h-screen w-full">
-        <div className="w-1/4 ">
+        <div className="w-[30%] ">
           <LeftBar />
         </div>
-        <div className="w-full  ">
+        <div className="w-[70%]  ">
           {children}
         </div>
-        <div className="w-1/4 ">
+        <div className="w-[30%] ">
           <RightBar />
         </div>
       </div>

@@ -9,7 +9,7 @@ export default function LiteratureCard() {
 
   return (
     <div
-      className="literature-card cursor-pointer w-[263px] max-w-[263px]"
+      className="literature-card cursor-pointer w-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

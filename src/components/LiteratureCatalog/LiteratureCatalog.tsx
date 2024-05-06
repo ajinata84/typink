@@ -54,7 +54,7 @@ export default function Catalog() {
   ];
 
   return (
-    <div className="mt-6 max-w-[821.075px]">
+    <div className="mt-6">
       <div>
         <h1 className="font-bold text-4xl">Fantasy</h1>
         <h6 className="mb-3">Embark Yourself on a mesmerizing journey</h6>
