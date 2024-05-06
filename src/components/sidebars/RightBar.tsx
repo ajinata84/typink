@@ -13,8 +13,8 @@ export default function RightBar() {
 
   return (
     <>
-      <div className="bg-white p-4">
-        <h2 className="text-lg font-bold text-gray-800 mb-4">
+      <div className="bg-white p-3">
+        <h2 className="text-lg font-bold text-gray-800">
           Top Recent Titles
         </h2>
         {books.map((book, index) => (
@@ -33,11 +33,11 @@ export default function RightBar() {
               <div className="flex items-center mt-1">
                 <span className="text-xs text-gray-800 ml-1 p-2"></span>
                 
-                <div className="flex items-center mt-1">
+                <div className="flex items-center mt-1 mr-1 mb-4">
                   <svg className="w-3 h-3 text-gray-800 me-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
                     <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
                   </svg>
-                  <p className="ms-2 text-xs font-bold text-gray-900 dark:text-white">4.95</p>
+                  <p className="text-xs font-bold text-gray-900 dark:text-white">4.95</p>
                   <span className="w-1 h-1 mx-1.5 bg-gray-500 rounded-full dark:bg-gray-400"></span>
                 </div>
               </div>
@@ -45,7 +45,7 @@ export default function RightBar() {
           </div>
         ))}
 
-        <h2 className="lg-2 text-lg font-bold text-gray-800 mb-4">
+        <h2 className="lg-2 p-1 text-lg font-bold text-gray-800">
           Recent Activity
         </h2>
         <button className="bg-gray-800 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded mb-4">
@@ -53,7 +53,7 @@ export default function RightBar() {
         </button>
         <ul>
           {recentActivities.map((activity, index) => (
-            <li key={index} className="flex justify-between mb-2">
+            <li key={index} className="flex justify-between mb-2 pb-2 border-b border-gray-300">
                 <span className="text-sm text-gray-700">{activity.title}</span>
                 <span className="text-sm text-gray-500">{activity.count}</span>
             </li>

@@ -1,6 +1,5 @@
-import React from 'react';
-
-const categories = [
+export default function LeftBar() {
+  const categories = [
   "Adventure",
   "Bildungsroman",
   "Children's",
@@ -44,7 +43,7 @@ const categories = [
   "Young Adult"
 ];
 
-export default function LeftBar() {
+  
   return (
     <div className="bg-white p-4 rounded-lg">
       <h2 className="text-xl font-bold text-gray-800 mb-6">Categories</h2>
