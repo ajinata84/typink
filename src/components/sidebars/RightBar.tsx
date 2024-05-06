@@ -45,7 +45,7 @@ export default function RightBar() {
           </div>
         ))}
 
-        <h2 className="md-2 text-lg font-bold text-gray-800 mb-4">
+        <h2 className="lg-2 text-lg font-bold text-gray-800 mb-4">
           Recent Activity
         </h2>
         <button className="bg-gray-800 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded mb-4">
@@ -54,8 +54,8 @@ export default function RightBar() {
         <ul>
           {recentActivities.map((activity, index) => (
             <li key={index} className="flex justify-between mb-2">
-                <span className="text-md text-gray-700">{activity.title}</span>
-                <span className="text-md text-gray-500">{activity.count}</span>
+                <span className="text-sm text-gray-700">{activity.title}</span>
+                <span className="text-sm text-gray-500">{activity.count}</span>
             </li>
           ))}
         </ul>
