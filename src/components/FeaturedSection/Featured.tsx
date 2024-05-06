@@ -1,4 +1,3 @@
-import { Button } from "../ui/button";
 import Autoplay from "embla-carousel-autoplay";
 
 import {
@@ -8,7 +7,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
-import "./style.scss";
 
 export default function Featured() {
   const featuredData = [
@@ -22,16 +20,16 @@ export default function Featured() {
     },
     {
       bgImg:
-        "https://images.unsplash.com/photo-1714383524948-ebc87c14c0f1?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bgTitle: "something",
+        "https://images.unsplash.com/photo-1714836986273-9a62b37f55fa?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      bgTitle: "something 2",
       synopsis:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ad dolorem nesciunt nisi aliquid veniam consequatur fugit, adipisci corrupti eaque.",
       author: "ajinata",
     },
     {
       bgImg:
-        "https://images.unsplash.com/photo-1714383524948-ebc87c14c0f1?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bgTitle: "something",
+        "https://images.unsplash.com/photo-1714480931464-1537f724428b?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      bgTitle: "something 3 ",
       synopsis:
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ad dolorem nesciunt nisi aliquid veniam consequatur fugit, adipisci corrupti eaque.",
       author: "ajinata",
@@ -50,7 +48,7 @@ export default function Featured() {
         opts={{ loop: true }}
         plugins={[
           Autoplay({
-            delay: 2000,
+            delay: 5000,
           }),
         ]}
       >
@@ -77,9 +75,9 @@ export default function Featured() {
                       </h1>
                       <p className="text-white text-sm">{v.synopsis}</p>
                     </div>
-                    <div className="flex flex-row justify-between">
-                        <span>{v.author}</span>
-                      <div className="flex flex-row gap-4 my-4 text-white">
+                    <div className="flex flex-row justify-between items-center text-white">
+                      <span>{v.author}</span>
+                      <div className="flex flex-row gap-4 my-4">
                         <CarouselPrevious
                           className="carousel-btn"
                           variant={"link"}

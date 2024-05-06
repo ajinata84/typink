@@ -1,0 +1,10 @@
+/* LiteratureCard.css */
+.fade-in {
+    opacity: 0;
+    transition: opacity 0.05s ease-in-out;
+  }
+  
+  .fade-in:hover {
+    opacity: 1;
+  }
+  
