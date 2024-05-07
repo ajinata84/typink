@@ -1,6 +1,9 @@
+import Layout from "@/components/ui/layout";
 
 export default function Forum() {
   return (
-    <div>Forum</div>
+    <Layout>
+      <div className="w-full">asdfasdf</div>
+    </Layout>
   )
 }

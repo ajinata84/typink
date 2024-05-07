@@ -45,7 +45,7 @@ export default function LeftBar() {
 
   
   return (
-    <div className="bg-white p-4 rounded-lg">
+    <div className="bg-white pt-4 rounded-lg">
       <h2 className="text-xl font-bold text-gray-800 mb-6">Categories</h2>
       <ul className="space-y-3">
         {categories.map((category, index) => (
