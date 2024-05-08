@@ -26,7 +26,7 @@ export default function RightBar() {
             src="https://images.unsplash.com/photo-1714039509743-6f7825bc0cd9?q=80&w=1918&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           />
 
-          <div className=" h-full w-full p-3 flex flex-col justify-between">
+          <div className="h-full w-full p-3 flex flex-col justify-between">
             <div className="text-sm font-semibold text-gray-700">
               {book.title}
             </div>
