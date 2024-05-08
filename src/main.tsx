@@ -14,6 +14,7 @@ import Profile from "./routes/Profile.tsx";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 
 import '../app/globals.css'
+import EditProfile from "./routes/EditProfile.tsx";
 
 const router = createBrowserRouter([
   {
@@ -51,7 +52,10 @@ const router = createBrowserRouter([
   {
     path: "/literature/:category/:id",
     element: <LiteratureRead />,
-  },
+  },{
+    path: "/editprofile",
+    element: <EditProfile/>
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
