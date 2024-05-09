@@ -13,8 +13,9 @@ import Home from "./routes/Home.tsx";
 import Profile from "./routes/Profile.tsx";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 
-import '../app/globals.css'
+import "../app/globals.css";
 import EditProfile from "./routes/EditProfile.tsx";
+import LiteratureChapter from "./routes/literature/LiteratureChapter.tsx";
 
 const router = createBrowserRouter([
   {
@@ -42,20 +43,21 @@ const router = createBrowserRouter([
     element: <ForumRead />,
   },
   {
-    path: "/literature",
-    element: <Literature />,
-  },
-  {
     path: "/literature/:category",
     element: <LiteratureCategory />,
   },
   {
     path: "/literature/:category/:id",
     element: <LiteratureRead />,
-  },{
+  },
+  {
+    path: "/literature/:category/:id/:chapterId",
+    element: <LiteratureChapter />,
+  },
+  {
     path: "/editprofile",
-    element: <EditProfile/>
-  }
+    element: <EditProfile />,
+  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
