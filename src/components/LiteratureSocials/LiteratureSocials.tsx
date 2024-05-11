@@ -19,6 +19,7 @@ export default function LiteratureSocials() {
       chapter: "1.422",
     },
   ];
+
   return (
     <>
       <h2 className="text-lg font-bold text-gray-800 mb-4">Editor's Choice</h2>
