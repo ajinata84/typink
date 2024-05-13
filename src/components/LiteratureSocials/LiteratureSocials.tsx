@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export default function LiteratureSocials() {
 
@@ -25,10 +25,6 @@ export default function LiteratureSocials() {
   
   const [review, setReview] = useState<string>('');
 
-  const handleCancel = () => {
-    setReview('');
-  };
-
   const handleSubmit = () => {
     console.log("Review submitted: ", review);
     setReview('');
@@ -41,7 +37,7 @@ export default function LiteratureSocials() {
         {books.map((book, index) => (
           <div key={index} className="md-3 flex items-center h-[140px] my-2">
             <img
-              className="w-[70%] h-full object-cover rounded-sm"
+              className="w-[100px] h-full object-cover rounded-sm"
               alt="Book Cover"
               src="https://images.unsplash.com/photo-1714039509743-6f7825bc0cd9?q=80&w=1918&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             />
@@ -125,15 +121,12 @@ export default function LiteratureSocials() {
             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
           />
         </div>
-        <div className="flex-col mt-2">
-          <button className="text-gray-800 hover:text-blue-700 px-3 py-1 text-sm mr-2" onClick={handleCancel}>
-            Cancel
-          </button>
+      </div>
+        <div className="flex mt-2 justify-end">
           <button className="text-gray-800 hover:text-blue-700 px-3 py-1 text-sm" onClick={handleSubmit}>
             Submit
           </button>
         </div>
-      </div>
     </>
   );
 }
