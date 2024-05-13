@@ -1,4 +1,7 @@
+import React, { useState } from 'react';
+
 export default function LiteratureSocials() {
+
   const books = [
     {
       title: "A Dance With Shadows",
@@ -19,13 +22,24 @@ export default function LiteratureSocials() {
       chapter: "1.422",
     },
   ];
+  
+  const [review, setReview] = useState<string>('');
+
+  const handleCancel = () => {
+    setReview('');
+  };
+
+  const handleSubmit = () => {
+    console.log("Review submitted: ", review);
+    setReview('');
+  };
 
   return (
     <>
-      <h2 className="text-lg font-bold text-gray-800 mb-4">Editor's Choice</h2>
+      <h2 className="text-lg font-bold text-gray-800 mb-2">Editor's Choice</h2>
       <div className="flex overflow-x-auto gap-4 justify-center">
         {books.map((book, index) => (
-          <div key={index} className="md-3 flex items-center h-[140px] my-3">
+          <div key={index} className="md-3 flex items-center h-[140px] my-2">
             <img
               className="w-[70%] h-full object-cover rounded-sm"
               alt="Book Cover"
@@ -99,6 +113,26 @@ export default function LiteratureSocials() {
             </div>
           </div>
         ))}
+      </div>
+      <h2 className="text-lg font-bold text-gray-800 mb-2">Reviews</h2>
+      <div className="flex justify-center items-center my-4">
+        <div className="flex items-center border-b border-gray-300 w-full mx-4">
+          <input
+            type="text"
+            placeholder="Add a review..."
+            value={review}
+            onChange={(e) => setReview(e.target.value)}
+            className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
+          />
+        </div>
+        <div className="flex-col mt-2">
+          <button className="text-gray-800 hover:text-blue-700 px-3 py-1 text-sm mr-2" onClick={handleCancel}>
+            Cancel
+          </button>
+          <button className="text-gray-800 hover:text-blue-700 px-3 py-1 text-sm" onClick={handleSubmit}>
+            Submit
+          </button>
+        </div>
       </div>
     </>
   );
