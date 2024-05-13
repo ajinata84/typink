@@ -71,6 +71,7 @@ export default function LiteratureAndReviews() {
       </div>
       <h2 className="text-lg font-bold text-gray-800 mb-2">Reviews</h2>
       <div className="flex justify-center items-center my-4">
+      <img className="w-10 h-10 rounded-full mr-4" src="https://via.placeholder.com/150" alt="Profile" />
         <div className="flex items-center border-b border-gray-300 w-full mx-4">
           <input
             type="text"
@@ -86,11 +87,16 @@ export default function LiteratureAndReviews() {
           Submit
         </button>
       </div>
-      <div className="">
+      <div className="h-full w-full p-3 flex-col justify-between">
         {reviews.map((review) => (
-          <div key={review.id} className="mt-4 bg-white shadow-md rounded-lg p-4">
-            <p className="text-xs text-gray-500 mt-2">{review.author}, 5 hr. ago</p>
-            <p className="text-sm text-gray-700">{review.content}</p>
+          <div key={review.id} className="mt-4 bg-white shadow-md rounded-lg p-4 flex items-start">
+            <img className="w-10 h-10 rounded-full mr-4" src="https://via.placeholder.com/150" alt="Profile" />
+            <div>
+              <p className="text-xs text-clip font-semibold text-gray-800 mt-2">{review.author}, 5 hr. ago</p>
+              <div className="my-7">
+                <p className="text-sm text-gray-700">{review.content}</p>
+              </div>
+            </div>
           </div>
         ))}
       </div>
