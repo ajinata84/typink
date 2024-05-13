@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-export default function LiteratureSocials() {
-
+export default function LiteratureAndReviews() {
   const books = [
     {
       title: "A Dance With Shadows",
@@ -22,12 +21,21 @@ export default function LiteratureSocials() {
       chapter: "1.422",
     },
   ];
-  
-  const [review, setReview] = useState<string>('');
 
-  const handleSubmit = () => {
-    console.log("Review submitted: ", review);
-    setReview('');
+  const [reviews, setReviews] = useState([
+    { id: 1, author: "Guntur35", content: "Vahn was an atypical youth. Due to a rare mutation, his blood had the potential to target and attack ailments within the human body. Touted as a universal cure, people had elevated his status above the norm and given him the classification 'Panacea'. In the media, he was hailed as a great hero who..." }
+  ]);
+
+  const [reviewInput, setReviewInput] = useState('');
+
+  const handleReviewSubmit = () => {
+    const newReview = {
+      id: reviews.length + 1,
+      author: "NewUser", // This could be dynamically set if you have user authentication
+      content: reviewInput
+    };
+    setReviews([...reviews, newReview]);
+    setReviewInput('');
   };
 
   return (
@@ -47,63 +55,14 @@ export default function LiteratureSocials() {
               </div>
               <div className="flex items-center">
                 <div className="flex items-center">
-                  <svg
-                    className="w-3 h-4 text-yellow-300 me-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-3 h-4 text-yellow-300 me-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-3 h-4 text-yellow-300 me-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-3 h-4 text-yellow-300 me-1"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <svg
-                    className="w-3 h-4 text-gray-300 me-1 dark:text-gray-500"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="currentColor"
-                    viewBox="0 0 22 20"
-                  >
-                    <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z" />
-                  </svg>
-                  <p className="ms-1 text-xs font-medium text-gray-500 dark:text-gray-400">
-                    4.95
-                  </p>
-                </div>
-              </div>
-              <div className="text-xs text-gray-800">{book.genre}</div>
-              <div className="mb-1">
-                <div className="text-xs text-gray-800">
-                  <p>Author : {book.author}</p>
-                </div>
-                <div className="text-xs text-gray-800">
-                  <p>Chapter : {book.chapter}</p>
+                  {/* Star SVGs */}
+                  <div className="text-xs text-gray-800">{book.genre}</div>
+                  <div className="mb-1">
+                    <div className="text-xs text-gray-800">
+                      <p>Author : {book.author}</p>
+                      <p>Chapter : {book.chapter}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -116,17 +75,25 @@ export default function LiteratureSocials() {
           <input
             type="text"
             placeholder="Add a review..."
-            value={review}
-            onChange={(e) => setReview(e.target.value)}
+            value={reviewInput}
+            onChange={(e) => setReviewInput(e.target.value)}
             className="appearance-none bg-transparent border-none w-full text-gray-700 mr-3 py-1 px-2 leading-tight focus:outline-none"
           />
         </div>
       </div>
-        <div className="flex mt-2 justify-end">
-          <button className="text-gray-800 hover:text-blue-700 px-3 py-1 text-sm" onClick={handleSubmit}>
-            Submit
-          </button>
-        </div>
+      <div className="flex mt-2 justify-end">
+        <button className="text-gray-800 hover:text-blue-700 px-3 py-1 text-sm" onClick={handleReviewSubmit}>
+          Submit
+        </button>
+      </div>
+      <div className="">
+        {reviews.map((review) => (
+          <div key={review.id} className="mt-4 bg-white shadow-md rounded-lg p-4">
+            <p className="text-xs text-gray-500 mt-2">{review.author}, 5 hr. ago</p>
+            <p className="text-sm text-gray-700">{review.content}</p>
+          </div>
+        ))}
+      </div>
     </>
   );
 }
