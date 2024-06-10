@@ -16,6 +16,7 @@ import { ThemeProvider } from "./components/theme-provider.tsx";
 import "../app/globals.css";
 import EditProfile from "./routes/EditProfile.tsx";
 import LiteratureChapter from "./routes/literature/LiteratureChapter.tsx";
+import { Toaster } from "./components/ui/toaster.tsx";
 
 const router = createBrowserRouter([
   {
@@ -43,15 +44,15 @@ const router = createBrowserRouter([
     element: <ForumRead />,
   },
   {
-    path: "/literature/:category",
+    path: "/novels/category/:genreid",
     element: <LiteratureCategory />,
   },
   {
-    path: "/literature/:category/:id",
+    path: "/read/:id",
     element: <LiteratureRead />,
   },
   {
-    path: "/literature/:category/:id/:chapterId",
+    path: "/read/:id/:chapterId",
     element: <LiteratureChapter />,
   },
   {
@@ -64,6 +65,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <ThemeProvider defaultTheme="light" storageKey="typink-theme">
       <RouterProvider router={router} />
+      <Toaster />
     </ThemeProvider>
   </React.StrictMode>
 );

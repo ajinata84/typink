@@ -1,6 +1,40 @@
-export default function Navbar() {
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import { Plus, User, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import { Button } from "../ui/button";
+
+interface NavbarProps {
+  sticky?: boolean;
+}
+
+export default function Navbar({ sticky = false }: NavbarProps) {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    navigate("/auth");
+  };
+
   return (
-    <div className="flex items-center justify-between py-2  bg-white sticky top-0 z-50 ">
+    <div
+      className={`flex items-center justify-between py-2 bg-white w-[1366px] ${
+        sticky ? "" : "fixed z-50"
+      }`}
+    >
       <div className="w-[20%]">
         <svg
           width="120"
@@ -64,19 +98,48 @@ export default function Navbar() {
         />
       </div>
       <div className="pl-3 w-[20%] flex items-center space-x-8">
-        <a href="#" className="text-sm text-gray-800 hover:underline">
-          My List
-        </a>
-        <a href="#" className="text-sm text-gray-800 hover:underline">
+        <Button onClick={() => navigate("/forum")} variant={"link"}>
           Forum
-        </a>
-        <div className="w-8 h-8">
-          <img
-            src="https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-            alt="Profile"
-            className="rounded-full object-cover w-full h-full"
-          />
-        </div>
+        </Button>
+        <Button
+          onClick={() => navigate(isLoggedIn ? "/my-list" : "/auth")}
+          style={{ color: isLoggedIn ? "inherit" : "#04D192" }}
+          variant={"link"}
+        >
+          {isLoggedIn ? "My List" : "Sign Up"}
+        </Button>
+        {isLoggedIn ? (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <div className="w-8 h-8 cursor-pointer">
+                <img
+                  src="https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  alt="Profile"
+                  className="rounded-full object-cover w-full h-full"
+                />
+              </div>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onClick={() => navigate("/literature/create")}>
+                <Plus color="#04D192" className="mr-2" /> Create
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/account")}>
+                <User className="mr-2" /> Account
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                <LogOut color="#D10404" className="mr-2" /> Log Out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ) : (
+          <Button
+            className="text-sm bg-[#04D192] hover:underline hover:bg-[#016B4B]"
+            onClick={() => navigate("/auth")}
+          >
+            Log In
+          </Button>
+        )}
       </div>
     </div>
   );

@@ -8,7 +8,9 @@ export default function Home() {
     <Layout>
       <Featured />  
       <Latest />
-      <Catalog />
+      <Catalog genreId={1}/>
+      <Catalog genreId={3}/>
+
     </Layout>
   )
 }

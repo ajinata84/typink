@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Autoplay from "embla-carousel-autoplay";
-
 import {
   Carousel,
   CarouselContent,
@@ -7,34 +8,51 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "../ui/carousel";
+import { Skeleton } from "@/components/ui/skeleton";
+import { getApiURL } from "@/util/constants";
+import { Literature } from "@/util/interfaces";
+
+
+interface FeaturedData {
+  bgImg: string;
+  bgTitle: string;
+  synopsis: string;
+  author: string;
+}
 
 export default function Featured() {
-  const featuredData = [
-    {
-      bgImg:
-        "https://images.unsplash.com/photo-1714383524948-ebc87c14c0f1?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bgTitle: "something",
-      synopsis:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ad dolorem nesciunt nisi aliquid veniam consequatur fugit, adipisci corrupti eaque.",
-      author: "ajinata",
-    },
-    {
-      bgImg:
-        "https://images.unsplash.com/photo-1714836986273-9a62b37f55fa?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bgTitle: "something 2",
-      synopsis:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ad dolorem nesciunt nisi aliquid veniam consequatur fugit, adipisci corrupti eaque.",
-      author: "ajinata",
-    },
-    {
-      bgImg:
-        "https://images.unsplash.com/photo-1714480931464-1537f724428b?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      bgTitle: "something 3 ",
-      synopsis:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ad dolorem nesciunt nisi aliquid veniam consequatur fugit, adipisci corrupti eaque.",
-      author: "ajinata",
-    },
-  ];
+  const [featuredData, setFeaturedData] = useState<FeaturedData[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get<Literature[]>(
+          `${getApiURL()}/literature/top-picks`
+        );
+        const data = response.data.map((item) => ({
+          bgImg: item.imageUrl,
+          bgTitle: item.title,
+          synopsis: item.synopsis,
+          author: item.users.username,
+        }));
+        setFeaturedData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return (
+      <div>
+        <Skeleton className="h-[500px] w-full rounded" />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -44,17 +62,17 @@ export default function Featured() {
         <hr />
       </div>
       <Carousel
-        className="w-full "
+        className="w-full"
         opts={{ loop: true }}
         plugins={[
           Autoplay({
-            delay: 5000,
+            delay: 4000,
           }),
         ]}
       >
         <CarouselContent>
           {featuredData.map((v, i) => (
-            <CarouselItem>
+            <CarouselItem key={i}>
               <div
                 className="rounded h-[500px] mt-4"
                 style={{
@@ -62,10 +80,10 @@ export default function Featured() {
                   backgroundSize: "cover",
                 }}
               >
-                <div className="h-full w-full backdrop-blur-lg rounded flex flex-row bg-black/60 overflow-hidden    ">
+                <div className="h-full w-full backdrop-blur-lg rounded flex flex-row bg-black/60 overflow-hidden">
                   <img
                     src={v.bgImg}
-                    alt=""
+                    alt={v.bgTitle}
                     className="object-cover w-[40%] h-full"
                   />
                   <div className="w-full h-full pt-16 px-10 flex flex-col justify-between">
@@ -87,7 +105,7 @@ export default function Featured() {
                             cursor: "pointer",
                           }}
                         />
-                        1 of 10
+                        1 of {featuredData.length}
                         <CarouselNext
                           className="carousel-btn"
                           variant={"link"}
@@ -99,6 +117,7 @@ export default function Featured() {
                         />
                       </div>
                     </div>
+
                   </div>
                 </div>
               </div>

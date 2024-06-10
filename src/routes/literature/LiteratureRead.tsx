@@ -1,61 +1,165 @@
+import CommentCard from "@/components/Comments/Comments";
 import LiteratureSocials from "@/components/LiteratureSocials/LiteratureSocials";
 import { Button } from "@/components/ui/button";
 import Layout from "@/components/ui/layout";
-import { Grid2X2, Layers2 } from "lucide-react";
-import { useState } from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { timeSince } from "@/lib/utils";
+import { getApiURL } from "@/util/constants";
+import { LiteratureComment, LiteratureData } from "@/util/interfaces";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { Forward, Grid2X2, Layers2 } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function LiteratureRead() {
-  // const { category, id } = useParams();
+  const navigate = useNavigate();
+
+  const { id } = useParams<{ id: string }>();
+  const [literatureData, setLiteratureData] = useState<LiteratureData | null>(
+    null
+  );
+  const [comments, setComments] = useState<LiteratureComment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [newComment, setNewComment] = useState("");
+  const token = Cookies.get("token");
   const [currSec, setCurrSec] = useState(1);
 
-  const chapterData = [
-    {
-      title:
-        " Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus, adipisci.",
-      date: "20 jun 2023",
-    },
-    {
-      title: "asw2",
-      date: "21 jun 2023",
-    },
-    {
-      title: "asw3",
-      date: "22 jun 2023",
-    },
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const literatureResponse = await axios.get(
+          `${getApiURL()}/literature/id/${id}`
+        );
+        setLiteratureData(literatureResponse.data);
+
+        const commentsResponse = await axios.get(
+          `${getApiURL()}/literature/comments/${id}`
+        );
+        setComments(commentsResponse.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, [id]);
+
+  const handleCommentVote = async (
+    commentId: number,
+    voteType: "upvote" | "downvote"
+  ) => {
+    try {
+      await axios.post(
+        `${getApiURL()}/voting/literature-comment`,
+        { literatureCommentId: commentId, voteType },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setComments((prevComments) =>
+        prevComments.map((comment) =>
+          comment.literatureCommentId === commentId
+            ? {
+                ...comment,
+                vote: comment.vote === voteType ? "blank" : voteType,
+                voteCount:
+                  comment.vote === voteType
+                    ? voteType === "upvote"
+                      ? comment.voteCount - 1
+                      : comment.voteCount + 1
+                    : voteType === "upvote"
+                    ? comment.vote === "downvote"
+                      ? comment.voteCount + 2
+                      : comment.voteCount + 1
+                    : comment.vote === "upvote"
+                    ? comment.voteCount - 2
+                    : comment.voteCount - 1,
+              }
+            : comment
+        )
+      );
+    } catch (error) {
+      console.error("Error voting on comment:", error);
+    }
+  };
+
+  const handleAddComment = async () => {
+    try {
+      await axios.post(
+        `${getApiURL()}/literature/${id}/comment`,
+        { literatureId: Number(id), content: newComment },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast({
+        title: "Comment added",
+        description: "Your comment has been successfully added.",
+      });
+      setNewComment("");
+      fetchComments();
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+
+  const fetchComments = async () => {
+    try {
+      const commentsResponse = await axios.get(
+        `${getApiURL()}/literature/comments/${id}`
+      );
+      setComments(commentsResponse.data);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Layout leftBar={false} rightBar={false}>
       <div className="flex flex-row my-10">
         <img
           className="w-80 h-[450px] object-cover rounded-sm"
-          src="https://images.unsplash.com/photo-1573932925621-4a07d654bf77?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={`${literatureData?.imageUrl}`}
           alt=""
         />
         <div className="w-full p-10 flex flex-col justify-between">
           <div className="flex flex-col gap-4">
             <span className="text-5xl font-bold break-words w-[440px] block">
-              Lorem, ipsum dolor.
+              {literatureData?.title}
             </span>
             <div className="flex flex-row gap-6">
               <div className="flex flex-row gap-2">
                 <Grid2X2 />
-                Fantasy
+                {literatureData?.genre.genreTitle}
               </div>
               <div className="flex flex-row gap-2">
                 <Layers2 />
-                Chapter 20
+                {literatureData?.chapters.length} chapters
               </div>
             </div>
-            <span>Author: ajinata</span>
+            <span>Author: {literatureData?.users.username}</span>
             <div></div>
           </div>
           <div className="flex flex-col gap-2">
             <Button
               variant={"default"}
               className="w-36 rounded-xl bg-[#04D192] hover:bg-[#00855C]"
+              onClick={() =>
+                navigate(`/read/${id}/${literatureData?.chapters[0].chapterId}`)
+              }
             >
               Read
             </Button>
@@ -93,31 +197,43 @@ export default function LiteratureRead() {
         <hr className="mb-4" />
         {currSec == 1 && (
           <>
-            <p className="my-6">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Necessitatibus, placeat ratione. Illum accusantium accusamus
-              minima nisi reprehenderit ipsum praesentium, aliquam eveniet
-              voluptatibus, cum eum voluptatum error! Deleniti, voluptas
-              corporis animi magni quos amet cupiditate dolorem non quisquam ab
-              officiis atque voluptates fugit nobis sit ipsam voluptatibus
-              quidem eligendi dicta possimus. Maxime sapiente omnis repellat
-              quasi est, repellendus alias illo totam laudantium unde corporis.
-              Quisquam laudantium corrupti facilis porro perspiciatis.
-              Voluptate, odit expedita! Dolorum voluptate culpa nobis, quas
-              dolorem nemo aut obcaecati deleniti tempore aperiam, atque ad
-              praesentium quasi, nisi esse.
-            </p>
-            <LiteratureSocials />
+            <p className="my-6">{literatureData?.synopsis}</p>
+            {token && (
+              <div className="flex flex-col">
+                <h2 className="text-xl font-bold my-6">Comment</h2>
+                <Textarea
+                  placeholder="Type your Comment here here."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
+                <Button className="mt-4 w-20" onClick={handleAddComment}>
+                  <Forward />
+                </Button>
+                <hr className="mt-6" />
+              </div>
+            )}
+
+            <h2 className="text-xl font-bold my-6">Comments</h2>
+            <CommentCard
+              comments={comments}
+              handleCommentVote={handleCommentVote}
+              commentType="Literature"
+            />
           </>
         )}
         {currSec == 2 && (
           <>
-            {chapterData.map((v, i) => (
-              <div className="hover:bg-secondary cursor-pointer my-2">
+            {literatureData?.chapters.map((v, i) => (
+              <div
+                className="hover:bg-secondary cursor-pointer my-2"
+                onClick={() => navigate(`/read/${id}/${v.chapterId}`)}
+              >
                 <div className="flex flex-row w-full justify-between  h-10 items-center p-3 py-8">
-                  <span className="w-[20%]">Chapter {i + 1}</span>
-                  <span className="w-full">{v.title}</span>
-                  <span className="w-[20%]">{v.date}</span>
+                  <span className="w-[20%]">Chapter {v.chapterNumber}</span>
+                  <span className="w-full">{v.chapterTitle}</span>
+                  <span className="w-[20%]">
+                    {timeSince(new Date(v.created_at))}
+                  </span>
                 </div>
                 <hr />
               </div>

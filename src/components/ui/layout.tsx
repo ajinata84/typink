@@ -12,14 +12,14 @@ export default function Layout({
   rightBar?: boolean;
 }) {
   return (
-    <div className="w-[1366px] m-auto min-h-full flex-col">
-      <Navbar />
-      <div className="flex h-screen w-full">
+    <div className="w-[1366px] m-auto min-h-full flex-col relative">
+      <Navbar sticky/>
+      <div className="flex h-screen w-full pt-[100px] relative">
         <div className="w-[20%] min-w-[20%] max-w-[20%] ">
           {leftBar && <LeftBar />}
         </div>
-        <div className="w-full  ">{children}</div>
-        <div className="w-[20%] max-w-[20%] min-w-[20%] p-4">
+        <div className="w-[60%]">{children}</div>
+        <div className="w-[20%] max-w-[20%] min-w-[20%] p-4 sticky top-0">
           {rightBar && <RightBar />}
         </div>
       </div>
