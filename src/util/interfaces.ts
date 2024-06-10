@@ -13,6 +13,9 @@ export interface Chapter {
   chapterTitle: string;
   content: string;
   created_at: string;
+  imageUrl: string;
+  voteCount: number;
+  vote: string;
 }
 
 export interface Literature {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import ForumCard from "@/components/ForumCard/ForumCard";
 import Layout from "@/components/ui/layout";
