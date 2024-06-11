@@ -173,12 +173,14 @@ export default function LiteratureRead() {
             >
               Read
             </Button>
-            <Button
-              variant={"default"}
-              className="w-36 rounded-xl bg-[#04D192] hover:bg-[#00855C]"
-            >
-              Add To Library
-            </Button>
+            {token && (
+              <Button
+                variant={"default"}
+                className="w-36 rounded-xl bg-[#04D192] hover:bg-[#00855C]"
+              >
+                Add To Library
+              </Button>
+            )}
           </div>
         </div>
       </div>

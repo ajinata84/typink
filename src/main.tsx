@@ -17,6 +17,9 @@ import "../app/globals.css";
 import EditProfile from "./routes/EditProfile.tsx";
 import LiteratureChapter from "./routes/literature/LiteratureChapter.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
+import ForumCreate from "./routes/forum/ForumCreate.tsx";
+import LiteratureCreate from "./routes/literature/LiteratureCreate.tsx";
+import ChapterCreate from "./routes/literature/ChapterCreate.tsx";
 
 const router = createBrowserRouter([
   {
@@ -32,8 +35,20 @@ const router = createBrowserRouter([
     element: <Profile />,
   },
   {
+    path: "/profile/:id",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/edit",
+    element: <EditProfile />,
+  },
+  {
     path: "/forum",
     element: <Forum />,
+  },
+  {
+    path: "/forum/create",
+    element: <ForumCreate />,
   },
   {
     path: "/forum/:category",
@@ -42,6 +57,14 @@ const router = createBrowserRouter([
   {
     path: "/forum/:category/:id",
     element: <ForumRead />,
+  },
+  {
+    path: "/novel/create",
+    element: <LiteratureCreate />,
+  },
+  {
+    path: "/novel/create-chapter",
+    element: <ChapterCreate />,
   },
   {
     path: "/novels/category/:genreid",
@@ -54,10 +77,6 @@ const router = createBrowserRouter([
   {
     path: "/read/:id/:chapterId",
     element: <LiteratureChapter />,
-  },
-  {
-    path: "/editprofile",
-    element: <EditProfile />,
   },
 ]);
 
