@@ -5,6 +5,7 @@ import {
 } from "@/util/interfaces";
 import VoteButtons from "../VoteButtons/VoteButtons";
 import { timeSince } from "@/lib/utils";
+import Cookies from "js-cookie";
 
 interface CommentProps {
   comments: (ForumComment | LiteratureComment | ChapterComment)[];
@@ -20,6 +21,8 @@ export default function CommentCard({
   handleCommentVote,
   commentType,
 }: CommentProps) {
+  const token = Cookies.get("token")
+
   return (
     <>
       {comments.map((comment) => {
@@ -46,12 +49,14 @@ export default function CommentCard({
               </span>
             </div>
             <p className="my-4">{comment.content}</p>
-            <VoteButtons
-              upvoteFn={() => handleCommentVote(commentId, "upvote")}
-              downvoteFn={() => handleCommentVote(commentId, "downvote")}
-              value={comment.voteCount}
-              status={comment.vote as "upvote" | "downvote" | "blank"}
-            />
+            {token && (
+              <VoteButtons
+                upvoteFn={() => handleCommentVote(commentId, "upvote")}
+                downvoteFn={() => handleCommentVote(commentId, "downvote")}
+                value={comment.voteCount}
+                status={comment.vote as "upvote" | "downvote" | "blank"}
+              />
+            )}
             <hr />
           </div>
         );

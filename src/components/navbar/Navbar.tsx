@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 interface NavbarProps {
   sticky?: boolean;
@@ -31,7 +32,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
 
   return (
     <div
-      className={`flex items-center justify-between py-2 bg-white w-[1366px] ${
+      className={`flex items-center justify-between py-2  w-[1366px] ${
         sticky ? "" : "fixed z-50"
       }`}
     >
@@ -91,10 +92,10 @@ export default function Navbar({ sticky = false }: NavbarProps) {
         </svg>
       </div>
       <div className="w-full flex justify-center">
-        <input
+        <Input
           type="text"
           placeholder="Search"
-          className="w-64 sm:w-96 px-2 sm:px-4 py-1.5 rounded-md bg-gray-100 text-sm"
+          className="w-64 sm:w-96 px-2 sm:px-4 py-1.5 rounded-md text-sm border-black"
         />
       </div>
       <div className="pl-3 w-[20%] flex items-center space-x-8">

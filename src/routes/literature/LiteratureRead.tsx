@@ -31,12 +31,22 @@ export default function LiteratureRead() {
     async function fetchData() {
       try {
         const literatureResponse = await axios.get(
-          `${getApiURL()}/literature/id/${id}`
+          `${getApiURL()}/literature/id/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setLiteratureData(literatureResponse.data);
 
         const commentsResponse = await axios.get(
-          `${getApiURL()}/literature/comments/${id}`
+          `${getApiURL()}/literature/comments/${id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
         setComments(commentsResponse.data);
       } catch (error) {

@@ -17,6 +17,45 @@ export default function LiteratureChapter() {
   const [literature, setLiterature] = useState<Literature | null>(null);
   const token = Cookies.get("token");
 
+  const [bgColor, setBgColor] = useState<string>("#FFFFFF");
+  const [font, setFont] = useState<string>("Inter");
+  const [fontSize, setFontSize] = useState<number>(16);
+
+  const storedBgColor = localStorage.getItem("bgColor");
+  const storedFont = localStorage.getItem("font");
+  const storedFontSize = localStorage.getItem("fontSize");
+
+  const handleBgColorChange = (color: string) => {
+    setBgColor(color);
+    localStorage.setItem("bgColor", color);
+  };
+
+  const handleFontChange = (font: string) => {
+    setFont(font);
+    localStorage.setItem("font", font);
+  };
+
+  const handleFontSizeChange = (size: number) => {
+    setFontSize(size);
+    localStorage.setItem("fontSize", size.toString());
+  };
+
+  useEffect(() => {
+    const storedBgColor = localStorage.getItem("bgColor");
+    const storedFont = localStorage.getItem("font");
+    const storedFontSize = localStorage.getItem("fontSize");
+
+    if (storedBgColor) {
+      setBgColor(storedBgColor);
+    }
+    if (storedFont) {
+      setFont(storedFont);
+    }
+    if (storedFontSize) {
+      setFontSize(parseInt(storedFontSize, 10));
+    }
+  }, []);
+
   useEffect(() => {
     async function fetchChapter() {
       try {
@@ -112,9 +151,17 @@ export default function LiteratureChapter() {
 
   return (
     <>
-      <div className="w-screen h-screen fixed top-0 left-0"></div>
+      <div
+        className="w-screen h-screen fixed top-0 left-0"
+        style={{
+          backgroundColor: bgColor,
+        }}
+      ></div>
       <Layout leftBar={false} rightBar={false}>
-        <div className="flex flex-col justify-center w-full mt-6 text-center gap-7">
+        <div
+          className="flex flex-col justify-center w-full mt-6 text-center gap-7"
+          style={{ fontFamily: font, fontSize: `${fontSize}px` }}
+        >
           <img src={chapter.imageUrl} alt={chapter.chapterTitle} />
           <h6>@{literature.users.username}</h6>
           <h1 className="text-5xl font-semibold">{literature.title}</h1>
@@ -154,7 +201,14 @@ export default function LiteratureChapter() {
           </div>
         </div>
       </Layout>
-      <ReadingConfig />
+      <ReadingConfig
+        bgColor={bgColor}
+        font={font}
+        fontSize={fontSize}
+        onBgColorChange={handleBgColorChange}
+        onFontChange={handleFontChange}
+        onFontSizeChange={handleFontSizeChange}
+      />
     </>
   );
 }
