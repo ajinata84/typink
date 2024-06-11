@@ -44,10 +44,12 @@ export default function LiteratureCard({ item }: LiteratureCardProps) {
           backgroundSize: "cover",
         }}
       >
-        {isHovered && (
+        {true && (
           <div className="fade-in h-full">
-            <div className="h-full bg-black/50 backdrop-blur-md text-white p-4">
-              {item.synopsis}
+            <div className="h-[350px] overflow-hidden bg-black/50 backdrop-blur-md text-white p-4 ">
+              <p className="line-clamp-6 text-ellipsis max-width: 75ch;">
+                {item.synopsis}
+              </p>
             </div>
           </div>
         )}

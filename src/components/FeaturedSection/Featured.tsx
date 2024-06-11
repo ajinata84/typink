@@ -11,7 +11,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { getApiURL } from "@/util/constants";
 import { Literature } from "@/util/interfaces";
-
+import { useNavigate } from "react-router-dom";
 
 interface FeaturedData {
   bgImg: string;
@@ -21,7 +21,8 @@ interface FeaturedData {
 }
 
 export default function Featured() {
-  const [featuredData, setFeaturedData] = useState<FeaturedData[]>([]);
+  const navigate = useNavigate();
+  const [featuredData, setFeaturedData] = useState<Literature[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,13 +31,8 @@ export default function Featured() {
         const response = await axios.get<Literature[]>(
           `${getApiURL()}/literature/top-picks`
         );
-        const data = response.data.map((item) => ({
-          bgImg: item.imageUrl,
-          bgTitle: item.title,
-          synopsis: item.synopsis,
-          author: item.users.username,
-        }));
-        setFeaturedData(data);
+
+        setFeaturedData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -76,25 +72,28 @@ export default function Featured() {
               <div
                 className="rounded h-[500px] mt-4"
                 style={{
-                  backgroundImage: `url(${v.bgImg})`,
+                  backgroundImage: `url(${v.imageUrl})`,
                   backgroundSize: "cover",
                 }}
               >
                 <div className="h-full w-full backdrop-blur-lg rounded flex flex-row bg-black/60 overflow-hidden">
                   <img
-                    src={v.bgImg}
-                    alt={v.bgTitle}
+                    src={v.imageUrl}
+                    alt={v.title}
                     className="object-cover w-[40%] h-full"
                   />
-                  <div className="w-full h-full pt-16 px-10 flex flex-col justify-between">
-                    <div>
+                  <div className="w-full h-full pt-16 px-10 flex flex-col justify-between ">
+                    <div
+                      onClick={() => navigate(`/read/${v.literatureId}`)}
+                      className="cursor-pointer"
+                    >
                       <h1 className="text-white text-4xl capitalize font-semibold mb-4">
-                        {v.bgTitle}
+                        {v.title}
                       </h1>
                       <p className="text-white text-sm">{v.synopsis}</p>
                     </div>
                     <div className="flex flex-row justify-between items-center text-white">
-                      <span>{v.author}</span>
+                      <span>{v.users.username}</span>
                       <div className="flex flex-row gap-4 my-4">
                         <CarouselPrevious
                           className="carousel-btn"
@@ -105,7 +104,7 @@ export default function Featured() {
                             cursor: "pointer",
                           }}
                         />
-                        1 of {featuredData.length}
+                        {i + 1} of {featuredData.length}
                         <CarouselNext
                           className="carousel-btn"
                           variant={"link"}
@@ -117,7 +116,6 @@ export default function Featured() {
                         />
                       </div>
                     </div>
-
                   </div>
                 </div>
               </div>

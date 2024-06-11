@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Plus, User, LogOut } from "lucide-react";
+import { Plus, User, LogOut, NotebookPen } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -36,7 +36,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
         sticky ? "" : "fixed z-50"
       }`}
     >
-      <div className="w-[20%]">
+      <div className="w-[20%] cursor-pointer" onClick={() => navigate("/")}>
         <svg
           width="120"
           height="60"
@@ -121,9 +121,13 @@ export default function Navbar({ sticky = false }: NavbarProps) {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem onClick={() => navigate("/literature/create")}>
+              <DropdownMenuItem onClick={() => navigate("/novel/create")}>
                 <Plus color="#04D192" className="mr-2" /> Create
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => navigate("/novel/creations")}>
+                <NotebookPen color="#04D192" className="mr-2" /> My Contents
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate("/account")}>
                 <User className="mr-2" /> Account
               </DropdownMenuItem>

@@ -28,6 +28,19 @@ export interface Literature {
   chapters: Chapter[];
 }
 
+export interface TopPicks {
+  literatureId: number;
+  title: string;
+  synopsis: string;
+  imageUrl: string;
+  genre: Genre;
+  users: User;
+  chapters: Chapter[];
+  _count: {
+    Vote: number;
+  };
+}
+
 export interface ForumPost {
   forumId: number;
   created_at: string;
@@ -86,6 +99,9 @@ export interface ForumData {
   forumComments: ForumComment[];
   vote: string;
   voteCount: number;
+  _count: {
+    forumComments: number;
+  };
 }
 
 export interface LiteratureData {
