@@ -88,10 +88,6 @@ const router = createBrowserRouter([
     element: <DonatePage />,
   },
   {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
     path: "/profile/:id",
     element: <Profile />,
   },

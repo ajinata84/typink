@@ -55,11 +55,12 @@ export default function Auth() {
     try {
       const endpoint = isLogin ? "/auth/login" : "/auth/register";
       const response = await axios.post(`${getApiURL()}${endpoint}`, data);
-      const { token, userId, username } = response.data;
-
+      const { token, userId, username, imageUrl } = response.data;
+      
       Cookies.set("token", token);
       Cookies.set("uid", userId);
       Cookies.set("username", username);
+      Cookies.set("userImage", imageUrl);
 
       navigate("/");
     } catch (error) {

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
+import { defaultUserIcon } from "@/util/constants";
 
 interface NavbarProps {
   sticky?: boolean;
@@ -19,6 +20,9 @@ interface NavbarProps {
 export default function Navbar({ sticky = false }: NavbarProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const username = Cookies.get("username");
+  const uid = Cookies.get("uid");
+  const uimg = Cookies.get("userImage");
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +33,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
   const handleLogout = () => {
     Cookies.remove("token");
     Cookies.remove("uid");
+    Cookies.remove("userImage");
 
     navigate("/auth");
   };
@@ -117,15 +122,15 @@ export default function Navbar({ sticky = false }: NavbarProps) {
             <DropdownMenuTrigger asChild>
               <div className="w-8 h-8 cursor-pointer">
                 <img
-                  src="https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                  src={uimg ? uimg : defaultUserIcon}
                   alt="Profile"
                   className="rounded-full object-cover w-full h-full"
                 />
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
-              <DropdownMenuItem>
-                <User className="mr-2" onClick={() => navigate("/profile")} />
+              <DropdownMenuItem onClick={() => navigate(`/profile/${uid}`)}>
+                <User className="mr-2" />
                 {username}
               </DropdownMenuItem>
               <DropdownMenuSeparator />

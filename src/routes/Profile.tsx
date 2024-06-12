@@ -1,16 +1,65 @@
 import LiteratureCard from "@/components/LiteratureCard/LiteratureCard";
 import ProfileLayout from "@/components/layouts/ProfileLayout";
+import { timeSince } from "@/lib/utils";
+import { defaultUserIcon, getApiURL } from "@/util/constants";
+import { Literature, User } from "@/util/interfaces";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+interface collectionResponse {
+  collectionId: number;
+  created_at: string;
+  literature: Literature;
+}
+
+interface userData {
+  userId: string;
+  username: string;
+  bio: string;
+  imageUrl: string;
+  created_at: Date;
+  literature: Literature[];
+  collections: collectionResponse[];
+}
 
 const Profile = () => {
-  const avatarUrl =
-    "https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"; // Example avatar URL
-  const username = "Mellow Ajinata";
-  const bio = "Author of Shadow Slave";
-  const joinDate = "5 years ago";
+  const defaultValues = {
+    userId: "",
+    username: "",
+    bio: "",
+    imageUrl: "",
+    created_at: new Date(),
+    literature: [],
+    collections: [],
+  };
+
+  const [userData, setUserData] = useState<userData>(defaultValues);
+
+  const [loading, setLoading] = useState(true);
+
+  const { id } = useParams<{ id: string }>();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await axios.get<userData>(
+          `${getApiURL()}/user/id/${id}`
+        );
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchData();
+  }, []);
 
   return (
     <ProfileLayout>
-      <div className="flex-auto h-screen w-full">
+      <div className="flex-auto w-full">
         <h1 className="text-3xl font-bold text-left mb-4">Profile</h1>
         <hr className="w-full mb-4" />
         <div className="flex center gap-10 flex-row">
@@ -18,8 +67,12 @@ const Profile = () => {
             <div className=" rounded-full overflow-hidden border-40 border-white">
               <img
                 className="w-full h-full object-cover"
-                src={avatarUrl}
-                alt={username}
+                src={
+                  userData.imageUrl
+                    ? userData?.imageUrl
+                    : defaultUserIcon
+                }
+                alt={userData?.username}
               />
             </div>
             <button className="absolute -bottom-1 right-0 rounded-full ">
@@ -39,9 +92,11 @@ const Profile = () => {
             </button>
           </div>
           <div className="text-left mt-8">
-            <h3 className="text-4xl font-semibold">{username}</h3>
-            <p className="text-gray-700">{bio}</p>
-            <p className="text-gray-500">Joined {joinDate}</p>
+            <h3 className="text-4xl font-semibold">{userData?.username}</h3>
+            <p className="text-gray-700">{userData?.bio}</p>
+            <p className="text-gray-500">
+              Joined {timeSince(new Date(userData.created_at))} ago
+            </p>
             <button className="mt-6 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-8 rounded-full transition duration-200">
               Edit
             </button>
@@ -50,14 +105,26 @@ const Profile = () => {
         <div className="mt-6">
           <div>
             <h1 className="font-bold text-2xl">Creation</h1>
-            <hr />
+            <hr className="my-4" />
           </div>
-          <div className="grid grid-cols-3 grid-flow-row gap-6 mt-6">
-            {/* <LiteratureCard />
-            <LiteratureCard />
-            <LiteratureCard />
-            <LiteratureCard />
-            <LiteratureCard /> */}
+          <div className="grid grid-cols-3 grid-flow-row gap-4 mt-6">
+            {userData?.literature.map((item) => (
+              <LiteratureCard key={item.literatureId} item={item} />
+            ))}
+          </div>
+        </div>
+        <div className="mt-6">
+          <div>
+            <h1 className="font-bold text-2xl">Collection</h1>
+            <hr className="my-4" />
+          </div>
+          <div className="grid grid-cols-3 grid-flow-row gap-4 mt-6">
+            {userData?.collections.map((item) => (
+              <LiteratureCard
+                key={item.literature.literatureId}
+                item={item.literature}
+              />
+            ))}
           </div>
         </div>
       </div>
