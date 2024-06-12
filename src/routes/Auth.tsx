@@ -54,13 +54,11 @@ export default function Auth() {
     setLoading(true);
     try {
       const endpoint = isLogin ? "/auth/login" : "/auth/register";
-      const response = await axios.post(
-        `${getApiURL()}${endpoint}`,
-        data
-      );
-      const { token } = response.data;
-
+      const response = await axios.post(`${getApiURL()}${endpoint}`, data);
+      const { token, userId } = response.data;
+      
       Cookies.set("token", token);
+      Cookies.set("uid", userId);
       navigate("/");
     } catch (error) {
       toast({

@@ -9,7 +9,7 @@ import { getApiURL } from "@/util/constants";
 import { LiteratureComment, LiteratureData } from "@/util/interfaces";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Forward, Grid2X2, Layers2 } from "lucide-react";
+import { Check, Coins, Forward, Grid2X2, Layers2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useNavigate, useParams } from "react-router-dom";
@@ -161,7 +161,18 @@ export default function LiteratureRead() {
               </div>
             </div>
             <span>Author: {literatureData?.users.username}</span>
-            <div></div>
+            <div className="flex flex-row gap-4 items-center">
+              <Button
+                className="w-fit bg-[#FBBC04] hover:bg-[#EAAF00] rounded-xl "
+                onClick={() => navigate(`/donate/${literatureData?.authorId}`)}
+              >
+                <Coins className="mr-4" />
+                Donate To Author
+              </Button>
+              {literatureData?.donated === true && (
+                <Check className="text-[#04D192]" />
+              )}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <Button

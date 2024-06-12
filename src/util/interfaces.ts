@@ -135,4 +135,5 @@ export interface LiteratureData {
     userId: string;
   };
   vote: string;
+  donated: boolean;
 }

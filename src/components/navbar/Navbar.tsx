@@ -27,6 +27,8 @@ export default function Navbar({ sticky = false }: NavbarProps) {
 
   const handleLogout = () => {
     Cookies.remove("token");
+    Cookies.remove("uid");
+
     navigate("/auth");
   };
 
