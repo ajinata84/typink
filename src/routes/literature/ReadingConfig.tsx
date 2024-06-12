@@ -26,8 +26,6 @@ interface chaptersInterface {
 }
 
 export default function ReadingConfig({
-  bgColor,
-  font,
   fontSize,
   onBgColorChange,
   onFontChange,
@@ -81,7 +79,7 @@ export default function ReadingConfig({
         }
       );
 
-      const chapters = response.data.chapters.map((v, i) => ({
+      const chapters = response.data.chapters.map((v) => ({
         chapterId: v.chapterId,
         chapterNumber: v.chapterNumber,
         chapterTitle: v.chapterTitle,
@@ -196,6 +194,7 @@ export default function ReadingConfig({
           <div
             className="hover:bg-secondary cursor-pointer my-2 w-full"
             onClick={() => navigate(`/read/${id}/${v.chapterId}`)}
+            key={`p${i}`}
           >
             <div className="flex flex-row w-full justify-between  h-10 items-center p-3 py-8">
               <span className="w-[120px]">Chapter {v.chapterNumber}</span>

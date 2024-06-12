@@ -17,7 +17,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { Forward } from "lucide-react";
 import { getApiURL } from "@/util/constants";
 
 type FormData = {

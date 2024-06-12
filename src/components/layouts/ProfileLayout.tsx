@@ -1,8 +1,6 @@
 // src/components/layouts/ProfileLayout.tsx
 import React, { ReactNode } from "react";
 import Navbar from "../navbar/Navbar";
-import LeftBar from "../sidebars/LeftBar";
-import RightBar from "../sidebars/RightBar";
 interface ProfileLayoutProps {
   children: ReactNode;
 }

@@ -13,13 +13,6 @@ import { getApiURL } from "@/util/constants";
 import { Literature } from "@/util/interfaces";
 import { useNavigate } from "react-router-dom";
 
-interface FeaturedData {
-  bgImg: string;
-  bgTitle: string;
-  synopsis: string;
-  author: string;
-}
-
 export default function Featured() {
   const navigate = useNavigate();
   const [featuredData, setFeaturedData] = useState<Literature[]>([]);

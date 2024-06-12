@@ -13,7 +13,7 @@ export default function Layout({
 }) {
   return (
     <div className="w-[1366px] m-auto min-h-full flex-col relative">
-      <Navbar sticky/>
+      <Navbar/>
       <div className="flex h-screen w-full pt-[100px] relative">
         <div className="w-[20%] min-w-[20%] max-w-[20%] ">
           {leftBar && <LeftBar />}

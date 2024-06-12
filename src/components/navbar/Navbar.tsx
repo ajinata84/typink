@@ -32,8 +32,8 @@ export default function Navbar({ sticky = false }: NavbarProps) {
 
   return (
     <div
-      className={`flex items-center justify-between py-2  w-[1366px] ${
-        sticky ? "" : "fixed z-50"
+      className={`flex items-center py-2 justify-between  w-[1366px] ${
+        sticky ? "fixed z-50 bg-white" : ""
       }`}
     >
       <div className="w-[20%] cursor-pointer" onClick={() => navigate("/")}>
@@ -91,7 +91,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
           </svg>
         </svg>
       </div>
-      <div className="w-full flex justify-center">
+      <div className="flex ">
         <Input
           type="text"
           placeholder="Search"
@@ -128,7 +128,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
                 <NotebookPen color="#04D192" className="mr-2" /> My Contents
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate("/account")}>
+              <DropdownMenuItem onClick={() => navigate("/profile")}>
                 <User className="mr-2" /> Account
               </DropdownMenuItem>
               <DropdownMenuSeparator />

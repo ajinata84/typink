@@ -85,7 +85,7 @@ export default function RightBar() {
         Post New Topic
       </Button>
       <ul>
-        {forums.map((activity, index) => (
+        {forums.slice(0, 10).map((activity, index) => (
           <Button
             variant={"ghost"}
             key={index}

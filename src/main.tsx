@@ -20,6 +20,7 @@ import { Toaster } from "./components/ui/toaster.tsx";
 import ForumCreate from "./routes/forum/ForumCreate.tsx";
 import LiteratureCreate from "./routes/literature/LiteratureCreate.tsx";
 import ChapterCreate from "./routes/literature/ChapterCreate.tsx";
+import DonatePage from "./routes/donation/DonatePage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -77,6 +78,10 @@ const router = createBrowserRouter([
   {
     path: "/read/:id/:chapterId",
     element: <LiteratureChapter />,
+  },
+  {
+    path: "/donate/:authorId",
+    element: <DonatePage />,
   },
 ]);
 
