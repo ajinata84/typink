@@ -2,7 +2,7 @@ export function getApiURL () {
     const prodUrl = "https://api-typink.djie.cloud"
     const devUrl = "http://localhost:7000"
 
-    return devUrl
+    return prodUrl
 }
 
 export const genreMap = [
