@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Plus, User, LogOut, NotebookPen } from "lucide-react";
+import { Plus, User, LogOut, NotebookPen, Banknote } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -18,6 +18,7 @@ interface NavbarProps {
 
 export default function Navbar({ sticky = false }: NavbarProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const username = Cookies.get("username");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -123,15 +124,20 @@ export default function Navbar({ sticky = false }: NavbarProps) {
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent>
+              <DropdownMenuItem>
+                <User className="mr-2" onClick={() => navigate("/profile")} />
+                {username}
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate("/novel/create")}>
                 <Plus color="#04D192" className="mr-2" /> Create
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => navigate("/novel/creations")}>
-                <NotebookPen color="#04D192" className="mr-2" /> My Contents
+              <DropdownMenuItem onClick={() => navigate("/profile/creations")}>
+                <NotebookPen color="#04D192" className="mr-2" /> Creations
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={() => navigate("/profile")}>
-                <User className="mr-2" /> Account
+                <Banknote className="mr-2" /> Transactions
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>

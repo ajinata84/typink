@@ -21,6 +21,9 @@ import ForumCreate from "./routes/forum/ForumCreate.tsx";
 import LiteratureCreate from "./routes/literature/LiteratureCreate.tsx";
 import ChapterCreate from "./routes/literature/ChapterCreate.tsx";
 import DonatePage from "./routes/donation/DonatePage.tsx";
+import ChapterEdit from "./routes/literature/ChapterEdit.tsx";
+import LiteratureEdit from "./routes/literature/LiteratureEdit.tsx";
+import MyCreations from "./routes/profile/MyCreations.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,18 +33,6 @@ const router = createBrowserRouter([
   {
     path: "/auth",
     element: <Auth />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/profile/:id",
-    element: <Profile />,
-  },
-  {
-    path: "/profile/edit",
-    element: <EditProfile />,
   },
   {
     path: "/forum",
@@ -64,13 +55,22 @@ const router = createBrowserRouter([
     element: <LiteratureCreate />,
   },
   {
-    path: "/novel/create-chapter",
+    path: "/novel/:literatureId/create-chapter",
     element: <ChapterCreate />,
+  },
+  {
+    path: "/novel/edit/:literatureId",
+    element: <LiteratureEdit />,
+  },
+  {
+    path: "/novel/edit-chapter/:chapterId",
+    element: <ChapterEdit />,
   },
   {
     path: "/novels/category/:genreid",
     element: <LiteratureCategory />,
   },
+
   {
     path: "/read/:id",
     element: <LiteratureRead />,
@@ -82,6 +82,26 @@ const router = createBrowserRouter([
   {
     path: "/donate/:authorId",
     element: <DonatePage />,
+  },
+  {
+    path: "/donate/:authorId",
+    element: <DonatePage />,
+  },
+  {
+    path: "/profile",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/:id",
+    element: <Profile />,
+  },
+  {
+    path: "/profile/edit",
+    element: <EditProfile />,
+  },
+  {
+    path: "/profile/creations",
+    element: <MyCreations />,
   },
 ]);
 

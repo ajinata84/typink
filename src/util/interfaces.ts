@@ -26,6 +26,8 @@ export interface Literature {
   genre: Genre;
   users: User;
   chapters: Chapter[];
+  language: string;
+  copyright: number;
 }
 
 export interface TopPicks {
@@ -104,6 +106,17 @@ export interface ForumData {
   };
 }
 
+export interface Chapter {
+  chapterId: number;
+  created_at: string;
+  literatureId: number;
+  chapterTitle: string;
+  chapterNumber: number;
+  imageUrl: string;
+  content: string;
+  voteCount: number;
+}
+
 export interface LiteratureData {
   literatureId: number;
   created_at: string;
@@ -120,16 +133,7 @@ export interface LiteratureData {
     created_at: string;
     genreTitle: string;
   };
-  chapters: {
-    chapterId: number;
-    created_at: string;
-    literatureId: number;
-    chapterTitle: string;
-    chapterNumber: number;
-    imageUrl: string;
-    content: string;
-    voteCount: number;
-  }[];
+  chapters: Chapter[];
   users: {
     username: string;
     userId: string;

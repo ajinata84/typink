@@ -162,7 +162,9 @@ export default function LiteratureChapter() {
           className="flex flex-col justify-center w-full mt-6 text-center gap-7"
           style={{ fontFamily: font, fontSize: `${fontSize}px` }}
         >
-          <img src={chapter.imageUrl} alt={chapter.chapterTitle} />
+          {chapter.imageUrl && (
+            <img src={chapter.imageUrl} alt={chapter.chapterTitle} />
+          )}
           <h6>@{literature.users.username}</h6>
           <h1 className="text-5xl font-semibold">{literature.title}</h1>
           <h2>{chapter.chapterTitle}</h2>

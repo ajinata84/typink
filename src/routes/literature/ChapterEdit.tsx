@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import Layout from "@/components/ui/layout";
 import { Textarea } from "@/components/ui/textarea";
 import { useParams, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -18,21 +19,23 @@ import {
   FormControl,
   FormMessage,
 } from "@/components/ui/form";
-import { useState } from "react";
+import { Chapter } from "@/util/interfaces";
 
 const chapterSchema = z.object({
   title: z.string().min(1, "Title is required"),
-  number: z.coerce.number().min(1, "Chapter number is required"),
-  thumbnailUrl: z.union([z.string().url(), z.string().min(0)]).optional(),
+  number: z.number().min(1, "Chapter number is required"),
+  thumbnailUrl: z.string().url().optional(),
   content: z.string().min(1, "Content is required"),
 });
 
 type ChapterFormValues = z.infer<typeof chapterSchema>;
 
-export default function ChapterCreate() {
-  const { literatureId } = useParams<{ literatureId: string }>();
+export default function ChapterEdit() {
+  const { chapterId } = useParams<{ chapterId: string }>();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [lId, setLid] = useState(0);
+
 
   const formMethods = useForm<ChapterFormValues>({
     resolver: zodResolver(chapterSchema),
@@ -44,16 +47,45 @@ export default function ChapterCreate() {
     },
   });
 
-  const { handleSubmit, control } = formMethods;
+  const { reset, handleSubmit, control } = formMethods;
+
+  const fetchChapterData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get<Chapter>(
+        `${getApiURL()}/chapter/id/${chapterId}`
+      );
+      reset({
+        title: response.data.chapterTitle,
+        number: response.data.chapterNumber,
+        thumbnailUrl: response.data.imageUrl,
+        content: response.data.content,
+      });
+      setLid(response.data.literatureId)
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load chapter data.",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (chapterId) {
+      fetchChapterData();
+    }
+  }, [chapterId]);
 
   const onSubmit: SubmitHandler<ChapterFormValues> = async (data) => {
     try {
       setLoading(true);
       const token = Cookies.get("token");
-      const res = await axios.post<{ chapterId: number }>(
-        `${getApiURL()}/chapter/create`,
+      await axios.put(
+        `${getApiURL()}/chapter/edit`,
         {
-          literatureId,
+          chapterId,
           chapterTitle: data.title,
           chapterNumber: data.number,
           imageUrl: data.thumbnailUrl,
@@ -67,16 +99,16 @@ export default function ChapterCreate() {
       );
       toast({
         title: "Success",
-        description: "Chapter created successfully.",
+        description: "Chapter updated successfully.",
       });
 
       setTimeout(() => {
-        navigate(`/read/${literatureId}/${res.data.chapterId}`);
+        navigate(`/read/${lId}/${chapterId}`);
       }, 1000);
     } catch (error) {
       toast({
         title: "Error",
-        description: "Failed to create chapter.",
+        description: "Failed to update chapter.",
       });
     } finally {
       setLoading(false);
@@ -86,7 +118,9 @@ export default function ChapterCreate() {
   return (
     <Layout leftBar={false} rightBar={false}>
       <div className="flex flex-col justify-center gap-8 items-center">
-        <h1 className="text-3xl font-semibold text-center">Create Chapter</h1>
+        <h1 className="text-3xl font-semibold text-center">
+          {chapterId ? "Edit Chapter" : "Create Chapter"}
+        </h1>
         <Form {...formMethods}>
           <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-6">
             <FormField
@@ -94,6 +128,7 @@ export default function ChapterCreate() {
               name="title"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Chapter Title</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Chapter Title"
@@ -110,6 +145,7 @@ export default function ChapterCreate() {
               name="number"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Chapter Number</FormLabel>
                   <FormControl>
                     <Input
                       placeholder="Chapter Number"
@@ -126,8 +162,9 @@ export default function ChapterCreate() {
               name="thumbnailUrl"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Thumbnail URL (optional)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Thumbnail URL (optional)" {...field} />
+                    <Input placeholder="Thumbnail URL" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -138,6 +175,7 @@ export default function ChapterCreate() {
               name="content"
               render={({ field }) => (
                 <FormItem>
+                  <FormLabel>Content</FormLabel>
                   <FormControl>
                     <Textarea
                       placeholder="Content"
@@ -151,11 +189,11 @@ export default function ChapterCreate() {
             />
             <Button
               type="submit"
-              className="self-start h-10 w-20"
+              className=" self-start  h-10 w-20"
               disabled={loading}
             >
               {loading ? (
-                <div className="spinner-border animate-spin inline-block border-4 rounded-full border-t-transparent border-white"></div>
+                <div className="spinner-border animate-spin inline-block  border-4 rounded-full border-t-transparent border-white"></div>
               ) : (
                 "Publish"
               )}
