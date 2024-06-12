@@ -40,6 +40,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import VoteButtons from "@/components/VoteButtons/VoteButtons";
 
 export default function LiteratureRead() {
   const navigate = useNavigate();
@@ -54,7 +55,10 @@ export default function LiteratureRead() {
   const [currSec, setCurrSec] = useState(1);
   const currentUserId = Cookies.get("uid");
 
-  const [alertOpen, setAlertOpen] = useState(false);
+  const [saveButtonHover, setSaveButton] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [alertOpen, setAlertOpen] = useState(0);
   const [literatureAlertOpen, setLAlertOpen] = useState(false);
 
   useEffect(() => {
@@ -75,6 +79,7 @@ export default function LiteratureRead() {
           }
         );
         setComments(commentsResponse.data);
+        console.log(literatureResponse);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -121,6 +126,38 @@ export default function LiteratureRead() {
       );
     } catch (error) {
       console.error("Error voting on comment:", error);
+    }
+  };
+
+  const handleAddToCollection = async () => {
+    setIsSaving(true);
+    try {
+      await axios.post(
+        `${getApiURL()}/collection/add`,
+        { literatureId: Number(id) },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      toast({
+        title: "Added to collection",
+        description: "This literature has been added to your collection.",
+      });
+      setLiteratureData((prevData) => {
+        if (!prevData) return null;
+        return {
+          ...prevData,
+          saved: true,
+        };
+      });
+    } catch (error) {
+      console.error("Error adding to collection:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add to collection.",
+      });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -203,6 +240,39 @@ export default function LiteratureRead() {
     return <div>Loading...</div>;
   }
 
+  const handleVote = async (voteType: "upvote" | "downvote") => {
+    try {
+      await axios.post(
+        `${getApiURL()}/voting/literature`,
+        { literatureId: Number(id), voteType },
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      setLiteratureData((prevData) => {
+        if (!prevData) return null;
+        return {
+          ...prevData,
+          vote: prevData.vote === voteType ? "blank" : voteType,
+          voteCount:
+            prevData.vote === voteType
+              ? voteType === "upvote"
+                ? prevData.voteCount - 1
+                : prevData.voteCount + 1
+              : voteType === "upvote"
+              ? prevData.vote === "downvote"
+                ? prevData.voteCount + 2
+                : prevData.voteCount + 1
+              : prevData.vote === "upvote"
+              ? prevData.voteCount - 2
+              : prevData.voteCount - 1,
+        };
+      });
+    } catch (error) {
+      console.error("Error voting on literature:", error);
+    }
+  };
+
   return (
     <Layout leftBar={false} rightBar={false}>
       <div className="flex flex-row my-10 relative">
@@ -231,13 +301,7 @@ export default function LiteratureRead() {
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
-              <Button
-                size={"icon"}
-                variant="ghost"
-                onClick={() => navigate(`/novel/${id}/create-chapter`)}
-              >
-                <Plus color="#04D192" />
-              </Button>
+
               <AlertDialog open={literatureAlertOpen}>
                 <AlertDialogTrigger asChild></AlertDialogTrigger>
                 <AlertDialogContent>
@@ -314,11 +378,44 @@ export default function LiteratureRead() {
               Read
             </Button>
             {token && (
+              <>
+                {!literatureData?.saved ? (
+                  <Button
+                    variant={"outline"}
+                    className="w-36 rounded-xl"
+                    onMouseEnter={() => setSaveButton(true)}
+                    onMouseLeave={() => setSaveButton(false)}
+                    onClick={handleAddToCollection}
+                  >
+                    {saveButtonHover ? "Remove ? " : "Already added"}
+                  </Button>
+                ) : (
+                  <Button
+                    variant={"default"}
+                    onClick={handleAddToCollection}
+                    className="w-36 rounded-xl bg-[#04D192] hover:bg-[#00855C]"
+                  >
+                    Add To Library
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+          <div className="flex flex-row justify-between">
+            <VoteButtons
+              className="mb-0 items-center flex flex-row"
+              downvoteFn={() => handleVote("downvote")}
+              upvoteFn={() => handleVote("upvote")}
+              value={literatureData?.voteCount || 0}
+              status={literatureData?.vote as "upvote" | "downvote" | "blank"}
+            />
+            {literatureData?.authorId === currentUserId && (
               <Button
-                variant={"default"}
-                className="w-36 rounded-xl bg-[#04D192] hover:bg-[#00855C]"
+                variant="outline"
+                onClick={() => navigate(`/novel/${id}/create-chapter`)}
               >
-                Add To Library
+                <Plus color="#04D192" />
+                Add Chapter
               </Button>
             )}
           </div>
@@ -415,13 +512,13 @@ export default function LiteratureRead() {
                           Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem
-                          onClick={() => setAlertOpen(!alertOpen)}
+                          onClick={() => setAlertOpen(v.chapterId)}
                         >
                           <Eraser className="mr-2" /> Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-                    <AlertDialog open={alertOpen}>
+                    <AlertDialog open={v.chapterId === alertOpen}>
                       <AlertDialogTrigger asChild></AlertDialogTrigger>
                       <AlertDialogContent>
                         <AlertDialogHeader>
@@ -434,9 +531,7 @@ export default function LiteratureRead() {
                           </AlertDialogDescription>
                         </AlertDialogHeader>
                         <AlertDialogFooter>
-                          <AlertDialogCancel
-                            onClick={() => setAlertOpen(!alertOpen)}
-                          >
+                          <AlertDialogCancel onClick={() => setAlertOpen(0)}>
                             Cancel
                           </AlertDialogCancel>
                           <AlertDialogAction

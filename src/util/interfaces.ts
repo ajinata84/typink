@@ -59,6 +59,8 @@ export interface ForumComment {
   userId: string;
   users: {
     username: string;
+    userId: string;
+    imageUrl: string
   };
   created_at: Date;
   vote: string;
@@ -71,6 +73,8 @@ export interface LiteratureComment {
   userId: string;
   users: {
     username: string;
+    userId: string;
+    imageUrl: string
   };
   created_at: Date;
   vote: string;
@@ -83,6 +87,8 @@ export interface ChapterComment {
   userId: string;
   users: {
     username: string;
+    userId: string;
+    imageUrl: string
   };
   created_at: Date;
   vote: string;
@@ -140,4 +146,5 @@ export interface LiteratureData {
   };
   vote: string;
   donated: boolean;
+  saved: boolean;
 }

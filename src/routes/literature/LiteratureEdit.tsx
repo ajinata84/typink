@@ -54,7 +54,6 @@ export default function LiteratureEdit() {
       const response = await axios.get<Literature>(
         `${getApiURL()}/literature/id/${literatureId}`
       );
-      console.log(response)
       reset({
         title: response.data.title,
         synopsis: response.data.synopsis,

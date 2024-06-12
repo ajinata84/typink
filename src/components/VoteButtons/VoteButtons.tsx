@@ -6,6 +6,7 @@ interface VoteButtonProps {
   downvoteFn: () => void;
   value: number;
   status: "upvote" | "downvote" | "blank"; // Explicit status types for clarity
+  className?: string;
 }
 
 export default function VoteButtons({
@@ -13,6 +14,7 @@ export default function VoteButtons({
   downvoteFn,
   value,
   status,
+  className,
 }: VoteButtonProps) {
   let upvoteClass = "ghost";
   let downvoteClass = "ghost";
@@ -25,11 +27,17 @@ export default function VoteButtons({
   }
 
   return (
-    <div className="flex flex-row items-center gap-4 mb-4">
-      <Button variant={upvoteClass as "default" | "ghost"} onClick={() => upvoteFn()}>
+    <div className={`flex flex-row items-center gap-4 mb-4 ${className}`}>
+      <Button
+        variant={upvoteClass as "default" | "ghost"}
+        onClick={() => upvoteFn()}
+      >
         <ArrowBigUp />
       </Button>
-      <Button variant={downvoteClass  as "default" | "ghost"} onClick={() => downvoteFn()}>
+      <Button
+        variant={downvoteClass as "default" | "ghost"}
+        onClick={() => downvoteFn()}
+      >
         <ArrowBigDown />
       </Button>
       <span>{value}</span>
