@@ -24,6 +24,7 @@ import DonatePage from "./routes/donation/DonatePage.tsx";
 import ChapterEdit from "./routes/literature/ChapterEdit.tsx";
 import LiteratureEdit from "./routes/literature/LiteratureEdit.tsx";
 import MyCreations from "./routes/profile/MyCreations.tsx";
+import Transactions from "./routes/profile/Transactions.tsx";
 
 const router = createBrowserRouter([
   {
@@ -67,7 +68,7 @@ const router = createBrowserRouter([
     element: <ChapterEdit />,
   },
   {
-    path: "/novels/category/:genreid",
+    path: "/novels/category/:genreId",
     element: <LiteratureCategory />,
   },
 
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
   {
     path: "/profile/creations",
     element: <MyCreations />,
+  },
+  {
+    path: "/profile/transactions",
+    element: <Transactions />,
   },
 ]);
 

@@ -60,7 +60,7 @@ export interface ForumComment {
   users: {
     username: string;
     userId: string;
-    imageUrl: string
+    imageUrl: string;
   };
   created_at: Date;
   vote: string;
@@ -74,7 +74,7 @@ export interface LiteratureComment {
   users: {
     username: string;
     userId: string;
-    imageUrl: string
+    imageUrl: string;
   };
   created_at: Date;
   vote: string;
@@ -88,7 +88,7 @@ export interface ChapterComment {
   users: {
     username: string;
     userId: string;
-    imageUrl: string
+    imageUrl: string;
   };
   created_at: Date;
   vote: string;
@@ -147,4 +147,13 @@ export interface LiteratureData {
   vote: string;
   donated: boolean;
   saved: boolean;
+}
+
+export interface Transaction {
+  transactionId: number
+  userId: string
+  value: number
+  transactionType: string
+  created_at: Date
+  message: string
 }

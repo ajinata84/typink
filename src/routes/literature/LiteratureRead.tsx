@@ -79,7 +79,6 @@ export default function LiteratureRead() {
           }
         );
         setComments(commentsResponse.data);
-        console.log(literatureResponse);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -148,6 +147,37 @@ export default function LiteratureRead() {
         return {
           ...prevData,
           saved: true,
+        };
+      });
+    } catch (error) {
+      console.error("Error adding to collection:", error);
+      toast({
+        title: "Error",
+        description: "Failed to add to collection.",
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDeleteCollection = async () => {
+    setIsSaving(true);
+    try {
+      await axios.delete(
+        `${getApiURL()}/collection/${literatureData?.literatureId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      toast({
+        title: "Deleted From Collection",
+        description: "This literature has been deleted from your collection.",
+      });
+      setLiteratureData((prevData) => {
+        if (!prevData) return null;
+        return {
+          ...prevData,
+          saved: false,
         };
       });
     } catch (error) {
@@ -379,23 +409,23 @@ export default function LiteratureRead() {
             </Button>
             {token && (
               <>
-                {!literatureData?.saved ? (
-                  <Button
-                    variant={"outline"}
-                    className="w-36 rounded-xl"
-                    onMouseEnter={() => setSaveButton(true)}
-                    onMouseLeave={() => setSaveButton(false)}
-                    onClick={handleAddToCollection}
-                  >
-                    {saveButtonHover ? "Remove ? " : "Already added"}
-                  </Button>
-                ) : (
+                {!literatureData?.saved === true ? (
                   <Button
                     variant={"default"}
                     onClick={handleAddToCollection}
                     className="w-36 rounded-xl bg-[#04D192] hover:bg-[#00855C]"
                   >
                     Add To Library
+                  </Button>
+                ) : (
+                  <Button
+                    variant={"outline"}
+                    onClick={handleDeleteCollection}
+                    className="w-36 rounded-xl"
+                    onMouseEnter={() => setSaveButton(true)}
+                    onMouseLeave={() => setSaveButton(false)}
+                  >
+                    {saveButtonHover ? "Remove ? " : "Already added"}
                   </Button>
                 )}
               </>

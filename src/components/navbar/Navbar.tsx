@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { Plus, User, LogOut, NotebookPen, Banknote } from "lucide-react";
+import {
+  Plus,
+  User,
+  LogOut,
+  NotebookPen,
+  Banknote,
+  Search,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -11,7 +18,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { defaultUserIcon } from "@/util/constants";
+import { defaultUserIcon, getApiURL } from "@/util/constants";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import { Label } from "../ui/label";
+import axios from "axios";
+import { LiteratureData } from "@/util/interfaces";
 
 interface NavbarProps {
   sticky?: boolean;
@@ -19,16 +39,33 @@ interface NavbarProps {
 
 export default function Navbar({ sticky = false }: NavbarProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [literatureData, setLiteratureData] = useState<LiteratureData[]>([]);
+  const [search, setSearch] = useState("");
   const username = Cookies.get("username");
   const uid = Cookies.get("uid");
   const uimg = Cookies.get("userImage");
 
   const navigate = useNavigate();
 
+  const fetchData = async () => {
+    try {
+      const literatureResponse = await axios.get(
+        `${getApiURL()}/literature/search?query=${search}`
+      );
+      setLiteratureData(literatureResponse.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
   useEffect(() => {
     const token = Cookies.get("token");
     setIsLoggedIn(!!token);
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [search]);
 
   const handleLogout = () => {
     Cookies.remove("token");
@@ -99,13 +136,43 @@ export default function Navbar({ sticky = false }: NavbarProps) {
           </svg>
         </svg>
       </div>
-      <div className="flex ">
-        <Input
-          type="text"
-          placeholder="Search"
-          className="w-64 sm:w-96 px-2 sm:px-4 py-1.5 rounded-md text-sm border-black"
-        />
-      </div>
+
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button className="w-96 font-semibold" variant={"outline"}>
+            <Search className="mr-2" /> Search
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader >
+            <DialogTitle className="mb-4">Search Novels</DialogTitle>
+            <Input
+              placeholder="Search Here"
+              onChange={(e) => setSearch(e.target.value)}
+            />
+          </DialogHeader>
+          <div className="flex flex-row w-full justify-between">
+            <span>Title</span>
+            <span>Author</span>
+          </div>
+          <div className="flex flex-col gap-2  ">
+            {literatureData.map((v, i) => (
+              <div
+                key={`k${i}`}
+                className="cursor-pointer h-14 w-full border-2 rounded-lg flex flex-row items-center px-4 justify-between overflow-ellipsis hover:border-black"
+                onClick={() => navigate(`/read/${v.literatureId}`)}
+              >
+                <h1 className="w-[250px] overflow-hidden text-ellipsis whitespace-nowrap">
+                  {v.title}
+                </h1>
+                <h2 className="w-20 line-clamp-1 font-semibold">
+                  {v.users.username}
+                </h2>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
       <div className="pl-3 w-[20%] flex items-center space-x-8">
         <Button onClick={() => navigate("/forum")} variant={"link"}>
           Forum
@@ -122,7 +189,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
             <DropdownMenuTrigger asChild>
               <div className="w-8 h-8 cursor-pointer">
                 <img
-                  src={uimg ? uimg : defaultUserIcon}
+                  src={uimg === "null" ? defaultUserIcon : uimg}
                   alt="Profile"
                   className="rounded-full object-cover w-full h-full"
                 />
@@ -141,7 +208,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
                 <NotebookPen color="#04D192" className="mr-2" /> Creations
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate("/profile")}>
+              <DropdownMenuItem onClick={() => navigate("/profile/transactions")}>
                 <Banknote className="mr-2" /> Transactions
               </DropdownMenuItem>
               <DropdownMenuSeparator />
