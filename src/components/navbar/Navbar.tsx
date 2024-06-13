@@ -189,7 +189,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
             <DropdownMenuTrigger asChild>
               <div className="w-8 h-8 cursor-pointer">
                 <img
-                  src={uimg === "null" ? defaultUserIcon : uimg}
+                  src={uimg ? uimg : defaultUserIcon}
                   alt="Profile"
                   className="rounded-full object-cover w-full h-full"
                 />

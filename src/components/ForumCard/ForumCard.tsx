@@ -25,9 +25,7 @@ export default function ForumCard({ forumData, clamp = true }: ForumCardProps) {
       <div className="flex items-center gap-4 ">
         <img
           src={
-            forumData.users.imgUrl !== null
-              ? forumData.users.imgUrl
-              : defaultUserIcon
+            forumData.users.imgUrl ? forumData.users.imgUrl : defaultUserIcon
           }
           alt="Profile"
           className="rounded-full object-cover w-8 h-8"
