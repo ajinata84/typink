@@ -1,6 +1,6 @@
 import { timeSince } from "@/lib/utils";
 import { ForumData } from "@/util/interfaces";
-import { MessageSquare, View } from "lucide-react";
+import { MessageSquare, TrendingUp, View } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 interface ForumCardProps {
@@ -40,12 +40,12 @@ export default function ForumCard({ forumData, clamp = true }: ForumCardProps) {
         </div>
         <div className="flex flex-row items-center ml-5 gap-6">
           <div className="flex flex-row gap-2">
-            <View />
-            <span>500k</span>
+            <TrendingUp />
+            <span>{forumData.voteCount}</span>
           </div>
           <div className="flex flex-row gap-2">
             <MessageSquare />
-            <span>500k</span>
+            <span>{forumData.forumComments.length}</span>
           </div>
         </div>
       </div>
