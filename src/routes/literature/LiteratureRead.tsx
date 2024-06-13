@@ -506,6 +506,11 @@ export default function LiteratureRead() {
                 <div
                   className="hover:bg-secondary cursor-pointer my-2 w-full"
                   key={`o${i}`}
+                  onClick={() =>
+                    navigate(
+                      `/read/${id}/${v.chapterId}`
+                    )
+                  }
                 >
                   <div className="flex flex-row w-full justify-between h-10 items-center p-3 py-8">
                     <span className="w-[20%]">Chapter {v.chapterNumber}</span>
