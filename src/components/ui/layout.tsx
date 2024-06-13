@@ -6,14 +6,16 @@ export default function Layout({
   children,
   leftBar = true,
   rightBar = true,
+  sticky = false,
 }: {
   children: React.ReactNode;
   leftBar?: boolean;
   rightBar?: boolean;
+  sticky?: boolean;
 }) {
   return (
     <div className="w-[1366px] m-auto min-h-full flex-col relative">
-      <Navbar/>
+      <Navbar sticky={sticky} />
       <div className="flex h-screen w-full pt-[100px] relative">
         <div className="w-[20%] min-w-[20%] max-w-[20%] ">
           {leftBar && <LeftBar />}

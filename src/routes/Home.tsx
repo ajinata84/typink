@@ -5,7 +5,7 @@ import Catalog from "@/components/LiteratureCatalog/LiteratureCatalog";
 
 export default function Home() {
   return (
-    <Layout>
+    <Layout sticky>
       <Featured />  
       <Latest />
       <Catalog genreId={1}/>

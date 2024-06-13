@@ -304,7 +304,7 @@ export default function LiteratureRead() {
   };
 
   return (
-    <Layout leftBar={false} rightBar={false}>
+    <Layout leftBar={false} rightBar={false} sticky>
       <div className="flex flex-row my-10 relative">
         {literatureData?.authorId === currentUserId && (
           <>
