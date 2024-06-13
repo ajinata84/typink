@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 type FormData = {
   title: string;
   content: string;
-  tag?: string;
+  tag: string;
 };
 
 interface createResponse {
@@ -49,7 +49,7 @@ export default function ForumCreate() {
           title: data.title,
           content: data.content,
           genreId: 1,
-          forumType: "discussion",
+          forumType: data.tag,
         },
         {
           headers: {
@@ -102,7 +102,7 @@ export default function ForumCreate() {
                 className="w-[30%]"
               />
               <span className="text-gray-500">
-                eg. Question or you can leave it blank
+                eg. Question, Discussion
               </span>
             </div>
             <Button type="submit" className="h-14 w-14">

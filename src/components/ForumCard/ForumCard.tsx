@@ -1,4 +1,5 @@
 import { timeSince } from "@/lib/utils";
+import { defaultUserIcon } from "@/util/constants";
 import { ForumData } from "@/util/interfaces";
 import { MessageSquare, View } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +24,11 @@ export default function ForumCard({ forumData, clamp = true }: ForumCardProps) {
     >
       <div className="flex items-center gap-4 ">
         <img
-          src="https://images.unsplash.com/photo-1593085512500-5d55148d6f0d?q=80&w=1780&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          src={
+            forumData.users.imgUrl !== null
+              ? forumData.users.imgUrl
+              : defaultUserIcon
+          }
           alt="Profile"
           className="rounded-full object-cover w-8 h-8"
         />

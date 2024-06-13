@@ -6,6 +6,7 @@ export interface Genre {
 export interface User {
   userId: string;
   username: string;
+  imgUrl: string;
 }
 
 export interface Chapter {
@@ -150,10 +151,10 @@ export interface LiteratureData {
 }
 
 export interface Transaction {
-  transactionId: number
-  userId: string
-  value: number
-  transactionType: string
-  created_at: Date
-  message: string
+  transactionId: number;
+  userId: string;
+  value: number;
+  transactionType: string;
+  created_at: Date;
+  message: string;
 }
