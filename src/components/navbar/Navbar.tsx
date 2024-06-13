@@ -144,7 +144,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-md">
-          <DialogHeader >
+          <DialogHeader>
             <DialogTitle className="mb-4">Search Novels</DialogTitle>
             <Input
               placeholder="Search Here"
@@ -178,7 +178,7 @@ export default function Navbar({ sticky = false }: NavbarProps) {
           Forum
         </Button>
         <Button
-          onClick={() => navigate(isLoggedIn ? "/my-list" : "/auth")}
+          onClick={() => navigate(isLoggedIn ? `/profile/${uid}` : "/auth")}
           style={{ color: isLoggedIn ? "inherit" : "#04D192" }}
           variant={"link"}
         >
@@ -208,7 +208,9 @@ export default function Navbar({ sticky = false }: NavbarProps) {
                 <NotebookPen color="#04D192" className="mr-2" /> Creations
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => navigate("/profile/transactions")}>
+              <DropdownMenuItem
+                onClick={() => navigate("/profile/transactions")}
+              >
                 <Banknote className="mr-2" /> Transactions
               </DropdownMenuItem>
               <DropdownMenuSeparator />

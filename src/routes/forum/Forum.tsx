@@ -6,10 +6,12 @@ import { getApiURL } from "@/util/constants";
 import { ForumData } from "@/util/interfaces";
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function Forum() {
   const [forums, setForums] = useState<ForumData[]>([]);
   const [allForums, setAllForums] = useState<ForumData[]>([]);
+  const navigate = useNavigate()
 
   const [loading, setLoading] = useState(true);
 
@@ -56,7 +58,12 @@ export default function Forum() {
         <section>
           <div className="flex flex-row justify-between">
             <span className="font-bold text-3xl">Recent Activity</span>
-            <Button className="bg-[#04D192] hover:bg-[#00B27C] rounded-xl">
+            <Button
+              className="bg-[#04D192] hover:bg-[#00B27C] rounded-xl"
+              onClick={() =>
+                navigate(`/forum/create`)
+              }
+            >
               <PlusIcon className="mr-2 " /> Create Post
             </Button>
           </div>
